@@ -7,7 +7,7 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'vishnujonnadasecret'  # Change this to a secure secret key
-app.config['MONGO_URI'] = 'mongodb+srv://vishnujonnaada2002:jonnadavishnu2002@cluster0.knea4tt.mongodb.net/'  # Replace 'your_database_name' with your MongoDB database name
+app.config['MONGO_URI'] = 'mongodb+srv://jonnadavishnu4444:vishnu@cluster0.u2a73ud.mongodb.net/'  # Replace 'your_database_name' with your MongoDB database name
 socketio = SocketIO(app)
 mongo = PyMongo(app)
 login_manager = LoginManager(app)
