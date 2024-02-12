@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Stream</title>
+</head>
+<body>
+    <h1>Live Stream</h1>
+    <p>Welcome, {{ current_user.username }}</p>
+    {% if current_user.is_authenticated %}
+        <p>Logged in as {{ current_user.username }}</p>
+        <button id="startStreamBtn">Start Stream</button>
+        <button id="watchStreamBtn">Watch Stream</button>
+        <form action="/logout" method="POST">
+            <button type="submit">Logout</button>
+        </form>
+    {% else %}
+        <p>Please log in to start or watch the stream.</p>
+        <a href="/login">Login</a>
+    {% endif %}
+    <div id="videoContainer"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        document.getElementById('startStreamBtn').addEventListener('click', () => {
+            socket.emit('start_stream');
+        });
+
+        document.getElementById('watchStreamBtn').addEventListener('click', () => {
+            watchStream();
+        });
+
+        function watchStream() {
+    socket.emit('watch_stream');
+}
+
+
+        socket.on('stream_started', () => {
+            const video = document.createElement('video');
+            video.autoplay = true;
+            navigator.mediaDevices.getUserMedia({ video: true }).then((mediaStream) => {
+                video.srcObject = mediaStream;
+                document.getElementById('videoContainer').appendChild(video);
+            }).catch((error) => {
+                console.error('Error accessing media devices:', error);
+            });
+        });
+
+        socket.on('start_watch_stream', () => {
+            const video = document.createElement('video');
+            video.autoplay = true;
+            navigator.mediaDevices.getUserMedia({ video: true }).then((mediaStream) => {
+                video.srcObject = mediaStream;
+                document.getElementById('videoContainer').appendChild(video);
+            }).catch((error) => {
+                console.error('Error accessing media devices:', error);
+            });
+        });
+    </script>
+</body>
+</html>
